@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\UserTicketController;
+use App\Http\Controllers\Backend\ConfigurationController;
 use App\Http\Controllers\TicketController;
 
 /*
@@ -57,7 +58,11 @@ Route::group(['prefix' => 'admin', 'middleware'=>['admin']],function(){
     Route::get('user/inactive/{id}', [UserController::class, 'userInactive'])->name('user.inactive');
 
     Route::resource('usertickets', UserTicketController::class);
-    Route::get('userticket/close', [UserTicketController::class, 'userticketClose']); 
- 
+    Route::get('userticket/close', [UserTicketController::class, 'userticketClose']);
+
+    Route::get('configuration', [ConfigurationController::class, 'configuration'])->name('configuration');
+    Route::post('app/update', [ConfigurationController::class, 'appUpdate'])->name('app.update');
+    Route::post('smtp/update', [ConfigurationController::class, 'SMTPUpdate'])->name('smtp.update');
+    
 });
 

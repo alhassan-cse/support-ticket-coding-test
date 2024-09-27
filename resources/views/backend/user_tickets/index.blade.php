@@ -36,7 +36,7 @@ $statusClassArr = [0=>"success", 1=>"danger"];
                             <tr class="client__manage_{{ $row->id }}">
                                 <td>{{ $row->id }}</td>
                                 <td><img class="rounded-circle lazy" data-src="{{ asset($row->user?->avatar)}}"  src="{{ asset('assets/img/placeholder/avatar.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder/avatar.jpg') }};" style="width:50px"></td>
-                                <td>{{ $row->user->name }}</td>
+                                <td>{{ $row->user?->name }}</td>
                                 <td>{{ Str::limit($row->subject, 80) }}</td>
                                 <td>{{ $row->created_at->format('d-m-Y') }}</td>
                                 <td>
