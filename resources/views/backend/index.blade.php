@@ -96,7 +96,7 @@
                                     <td><img class="rounded-circle lazy" data-src="{{ asset($row->user?->avatar)}}"  src="{{ asset('assets/img/placeholder/avatar.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder/avatar.jpg') }};" style="width:50px"></td>
                                     <td>{{ $row->user?->name }}</td>
                                     <td>{{ Str::limit($row->subject, 80) }}</td>
-                                    <td>{{ $row->created_at->format('d-m-Y') }}</td>
+                                    <td>{{ date('j M Y', strtotime($row->created_at)) }}</td>
                                     <td>
                                         <span class="label label-{{ $statusClassArr[$row->status] }}">{{ $statusArr[$row->status] }}</span>
                                     </td>

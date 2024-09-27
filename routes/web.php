@@ -45,7 +45,7 @@ Route::post('/user/login/post', [LoginController::class, 'loginPost'])->name('us
 Route::get('/user/register', [RegisterController::class, 'userRegister'])->name('user.register'); 
 Route::post('/user/register/post', [RegisterController::class, 'registerPost'])->name('user.register.post');
 
-Route::group(['prefix' => 'user', 'middleware'=>['auth']],function(){
+Route::group(['prefix' => 'user', 'middleware'=>['guest']],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
    // Route::get('/user/home', [HomeController::class, 'index'])->name('home');
     Route::resource('tickets', TicketController::class);

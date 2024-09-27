@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 	<link href="{{ asset('assets/backend/libs/sweetalert2/sweetalert2.css') }}">
 
-	@yield('style') 
+	@yield('style')
 
 </head>
 
