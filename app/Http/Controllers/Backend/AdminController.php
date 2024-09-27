@@ -54,12 +54,12 @@ class AdminController extends Controller
     {
         //dd($data['email']);
         if(is_numeric($data['email'])){
-            return ['phone'=>$data['email'],'password'=>$data['password'], 'status'=>1];
+            return ['phone'=>$data['email'],'password'=>$data['password'], 'user_type'=>1, 'status'=>1];
         }
         elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) { 
-            return ['email' => $data['email'], 'password'=>$data['password'], 'status'=>1];
+            return ['email' => $data['email'], 'password'=>$data['password'], 'user_type'=>1, 'status'=>1];
         }
-        return ['username' => $data['email'], 'password'=>$data['password'], 'status'=>1];
+        return ['username' => $data['email'], 'password'=>$data['password'], 'user_type'=>1, 'status'=>1];
     }
 
     public function adminLogout()

@@ -10,6 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="{{ asset('assets/backend/css/AdminLTE.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/backend/libs/toastr/toastr.min.css') }}"> 
     </head>
     <style>
         .pt-option{
@@ -34,15 +35,15 @@
 
                     @guest
                         @if (Route::has('login'))
-                           <a class="btn btn-outline-success my-2 my-sm-0" href="{{ route('login') }}">Login</a>
+                           <a class="btn btn-success my-2 my-sm-0" href="{{ route('user.login') }}">Login</a>
                         @endif
 
                         @if (Route::has('register')) 
-                            <a class="btn btn-outline-success my-2 my-sm-0 m-2" href="{{ route('register') }}">Register</a>
+                            <a class="btn btn-info my-2 my-sm-0 m-2" href="{{ route('user.register') }}">Register</a>
                         @endif
                     @else
-                        <a class="btn btn-outline-success my-2 my-sm-0 m-2" href="javascript:void(0)">{{ Auth::user()->name }}</a>
-                        <a class="btn btn-outline-success my-2 my-sm-0" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <a class="btn btn-success my-2 my-sm-0 m-2" href="javascript:void(0)">{{ Auth::user()->name }}</a>
+                        <a class="btn btn-info my-2 my-sm-0" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -58,7 +59,7 @@
         <div class="row justify-content-center mb-4"> 
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Ticket') }}</div>
+                    <div class="card-header">{{ __('Support Ticket') }}</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -95,11 +96,77 @@
         @yield('content')
     </div>
 
-    <footer class="bg-dark" style="margin-top:300px">
+    <footer class="bg-dark" style="margin-top:400px">
         <div class="d-md-flex justify-content-between align-items-center text-center text-lg-start py-4">
 			<!-- copyright text -->
-			<div class="text-white"> Copyrights ©2024 BID Requests</div>
+			<div class="text-white"> Copyrights © @php date("Y") @endphp Support Tickets.</div>
         </div>
     </footer>
 </body>
+<script src="{{ asset('assets/backend/libs/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ asset('assets/backend/libs/toastr/toastr.min.js') }}"></script>
+<script>
+
+    $(function() {
+        @if (Session::has('message'))
+
+            function Toast(type, css, msg) {
+                this.type = type;
+                this.css = css;
+                this.msg = "{{ Session::get('message') }}";
+            }
+
+            var type = "{{ Session::get('alert-type') }}"
+            switch (type) { 
+                case 'success':
+                    var toasts = [ 
+                        new Toast('success', 'toast-bottom-left', 'bottom right'),
+                    ];
+                    delayToasts();
+                    break;
+                case 'warning':
+                    var toasts = [ 
+                        new Toast('warning', 'toast-bottom-left', 'bottom right'),
+                    ];
+                    delayToasts();
+                    break;
+                case 'error':
+                    var toasts = [ 
+                        new Toast('error', 'toast-bottom-left', 'bottom right'),
+                    ];
+                    delayToasts();
+                    break;
+            }
+
+            toastr.options.positionClass = 'toast-top-full-width';
+            toastr.options.extendedTimeOut = 1000;
+            toastr.options.timeOut = 2000;
+            toastr.options.fadeOut = 2500;
+            toastr.options.fadeIn = 2500;
+
+            var i = 0;
+
+            function delayToasts() {
+                if (i === toasts.length) { return; }
+                var delay = i === 0 ? 0 : 2100;
+                window.setTimeout(function () { showToast(); }, delay);
+                // re-enable the button        
+                if (i === toasts.length-1) {
+                    window.setTimeout(function () {
+                        // $('#tryMe').prop('disabled', false);
+                        i = 0;
+                    }, delay + 20000);
+                }
+            }
+
+            function showToast() {
+                var t = toasts[i];
+                toastr.options.positionClass = t.css;
+                toastr[t.type](t.msg);
+                i++;
+                delayToasts();
+            }
+        @endif
+    }); 
+</script>
 </html>

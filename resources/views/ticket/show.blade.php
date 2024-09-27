@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xs-12"> 
+    <div class="col-md-12"> 
         <div class="box-header with-border">
             <h3 class="box-title">Customer Reply</h3><br/>
             <b class="box-title">Subject: {{ $ticket->subject }} @if($ticket->status ==1) <span class="badge badge-pill badge-danger">close</span> @else <span class="badge badge-pill badge-primary">open</span> @endif</b>

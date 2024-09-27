@@ -4,8 +4,12 @@
 
 
 <div class="container">
+    <div class="box-header with-border">
+        <h3 class="box-title">Manage Tickets</h3><br/>
+    </div> 
     <div class="row justify-content-center"> 
         <div class="col-md-12">
+            @if(count($tickets)>0)
             <div class="card">
                 <table class="table">
                     <thead>
@@ -36,10 +40,18 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mr-4"> 
+                    {{ $tickets->links("pagination::bootstrap-4") }}
+                </div>
             </div>
+            @else
+                <div class="card">
+                    <div class="card-body">
+                    No Tickets Founds
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
-
- 
 @endsection

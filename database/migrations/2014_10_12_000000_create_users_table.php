@@ -24,6 +24,12 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // Call seeder
+        Artisan::call('db:seed', [
+            '--class' => 'DatabaseSeeder',
+            '--force' => true // <--- add this line
+        ]);
     }
 
     /**
@@ -33,4 +39,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
+
+    
+
 };

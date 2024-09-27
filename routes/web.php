@@ -9,7 +9,9 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\UserTicketController;
 use App\Http\Controllers\Backend\ConfigurationController;
 use App\Http\Controllers\TicketController;
-
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+ 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,7 @@ use App\Http\Controllers\TicketController;
 | 'prefix'=>'admin', 
 */
 
-Route::get('/', function () {
+Route::get('/', function () { 
     return view('home');
 });
 
@@ -37,6 +39,11 @@ Route::get('/admin', [AdminController::class, 'adminLoign'])->name('admin.login'
 Route::post('/admin/login/post', [AdminController::class, 'adminpostLoign'])->name('admin.login.post');
 Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
 
+
+Route::get('/user/login', [LoginController::class, 'userLogin'])->name('user.login');
+Route::post('/user/login/post', [LoginController::class, 'loginPost'])->name('user.login.post');
+Route::get('/user/register', [RegisterController::class, 'userRegister'])->name('user.register'); 
+Route::post('/user/register/post', [RegisterController::class, 'registerPost'])->name('user.register.post');
 
 Route::group(['prefix' => 'user', 'middleware'=>['auth']],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

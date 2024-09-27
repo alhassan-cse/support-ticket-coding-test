@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -72,4 +74,56 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function userRegister()
+    {
+        if (Auth::check() && Auth::user()->user_type == 2){
+            return redirect()->route('home'); 
+        } 
+        return view('auth.register');
+    }
+
+    public function registerPost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+         
+        $user = new User();
+        $user->user_type = $request->user_type;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->status = 1;
+        if($user->save()){
+            $userInfo = User::find($user->id);
+            // dd($userInfo);
+             
+            Auth::login($userInfo);
+
+            $notification = array(
+                'message' => 'Customer register has been successfully',
+                'alert-type' => 'success'
+            ); 
+            return redirect()->route('home')->with($notification);
+        }
+        else{
+            $notification = array(
+                'message' => 'Something went wrong',
+                'alert-type' => 'error'
+            ); 
+            return redirect()->back()->with($notification);
+        }
+
+    }
+
 }
