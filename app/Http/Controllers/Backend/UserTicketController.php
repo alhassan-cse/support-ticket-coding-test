@@ -74,13 +74,12 @@ class UserTicketController extends Controller
     {
         $ticket = Ticket::with('user','reply_ticket')->where('id', decrypt($id))->first();
         
-        if($ticket->notification == 0){
+        if($ticket->notification == 0  && $ticket->status == 0 ){
             $ticket_id  = $ticket->id;
             $name  = $ticket->user->name;
             $email = $ticket->user->email; 
             $send = Mail::send('email.notification', ['name'=>$name, 'email'=>$email, 'ticket_id'=>$ticket_id], function($message) use($email){
-                // $sysEmail = "events.meca@gmail.com";
-                $sysEmail = "devcustomer007@gmail.com";
+                $sysEmail = env('MAIL_FROM_ADDRESS');
                 $sysCompany = env('APP_NAME');
                 $mail_subject = "Ticket Notification";
                 $message->from($sysEmail, $sysCompany);
@@ -89,9 +88,9 @@ class UserTicketController extends Controller
             });
             if($send){
                 $ticket->notification = 1;
-                $ticket->save(); 
+                $ticket->save();
             }
-        } 
+        }
         return view('backend.user_tickets.show', compact('ticket'));
     }
 
@@ -128,7 +127,7 @@ class UserTicketController extends Controller
             $name  = $ticket->user->name;
             $email = $ticket->user->email;
             Mail::send('email.close', ['name'=>$name, 'email'=>$email, 'ticket_id'=>$ticket_id], function($message) use($email){
-                $sysEmail = "devcustomer007@gmail.com";
+                $sysEmail = env('MAIL_FROM_ADDRESS');
                 $sysCompany = env('APP_NAME');
                 $mail_subject = "Ticket Notification";
                 $message->from($sysEmail, $sysCompany);

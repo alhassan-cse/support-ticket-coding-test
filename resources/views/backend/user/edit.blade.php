@@ -1,28 +1,10 @@
 @extends('backend.layouts.app')
 
 @section('title')
-<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(1) .' '. Request::segment(2)) }}</title>
+<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(2)) }}</title>
 @endsection
 
-@section('content')
- 
-<style>
-    .form-control.is-invalid, .was-validated .form-control:invalid {
-        border-color: #dc3545;
-        padding-right: calc(1.5em + .75rem) !important;
-        background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e);
-        background-repeat: no-repeat;
-        background-position: right calc(.375em + .1875rem) center;
-        background-size: calc(.75em + .375rem) calc(.75em + .375rem);
-    }
-    .invalid-feedback {
-        width: 100%;
-        margin-top: .25rem;
-        font-size: .875em;
-        color: #dc3545;
-    }
-</style>
-
+@section('content') 
 <section class="content">
     <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -82,22 +64,12 @@
 
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input type="password" name="password" class="form-control" placeholder="Password">
                                 </div> 
 
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    <input type="password" name="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password">
-                                    @error('confirm_password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('confirm_password') }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
                                 </div> 
    
                                 <div class="form-group avatar-option">
@@ -111,7 +83,7 @@
                                     <select class="form-control select2" name="status" style="width: 100%;">
                                         <option value="0">Select Status</option>
                                         <option @if($user->status == 1) selected @endif value="1">Active</option> 
-                                        <option @if($user->status == 1) selected @endif value="0">InActive</option>
+                                        <option @if($user->status == 0) selected @endif value="0">InActive</option>
                                     </select>
                                 </div>
                             </div>

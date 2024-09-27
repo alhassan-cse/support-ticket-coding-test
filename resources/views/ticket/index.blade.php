@@ -4,12 +4,13 @@
 
 
 <div class="container">
-    <div class="box-header with-border">
-        <h3 class="box-title">Manage Tickets</h3><br/>
-    </div> 
+     
     <div class="row justify-content-center"> 
         <div class="col-md-12">
             @if(count($tickets)>0)
+            <div class="box-header with-border">
+                <h3 class="box-title">Manage Tickets</h3><br/>
+            </div>
             <div class="card">
                 <table class="table">
                     <thead>

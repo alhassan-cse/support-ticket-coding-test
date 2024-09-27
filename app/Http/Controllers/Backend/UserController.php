@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        try { 
+        try {
 
             $validator = Validator::make($request->all(),[ 
                 'user_type' => 'required',
@@ -41,9 +41,8 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:8',
                 'confirm_password' => 'required|min:8|same:password'
-
             ]);
-            // dd($validator);
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
@@ -54,7 +53,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->phone = $request->phone; 
             if($request->avatar){
-                $path = 'assets/uploads/clients';
+                $path = 'assets/uploads/user';
                 $file_name = $request->avatar; 
                 $file_full_name = rand(10, 99).'-'.strtolower(str_replace(" ", "-", $file_name->getClientOriginalName()));
                 $file_name->move($path, $file_full_name);
@@ -94,7 +93,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::find($id);
+        $user = User::find(decrypt($id));
         return view('backend.user.edit', compact('user'));
     }
 
@@ -107,10 +106,11 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(),[
                 'user_type' => 'required',
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'max:255'],
+                'name' => 'required', 'string', 'max:255',
+                'email' => 'required', 'max:255',
                 'phone' => 'required'
             ]);
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
@@ -128,7 +128,6 @@ class UserController extends Controller
             // if password updated
             if($request->password){
                 if($request->password == $request->confirm_password){
-                    dd(1);
                     $user->password = Hash::make($request->password);
                 }
                 else{
@@ -137,8 +136,8 @@ class UserController extends Controller
                         'alert-type' => 'error'
                     ); 
                     return redirect()->back()->with($notification);
-                } 
-            } 
+                }
+            }
 
             $user->user_type = $request->user_type;
             $user->name = $request->name;
@@ -174,7 +173,7 @@ class UserController extends Controller
     public function userActive(string $id)
     {
         try {
-            $user = User::where('id', $id)->first();
+            $user = User::where('id', decrypt($id))->first();
             $user->status = 1 ; 
             if($user->save()){
                 $notification = array(
@@ -197,7 +196,7 @@ class UserController extends Controller
     public function userInactive(string $id)
     {
         try {
-            $user = User::where('id', $id)->first();
+            $user = User::where('id', decrypt($id))->first();
             $user->status = 0 ;
             if($user->save()){
                 $notification = array(
@@ -219,7 +218,6 @@ class UserController extends Controller
 
     public function removeUser(Request $request)
     {
-        // dd($request->all());
         $user = User::where('id', $request->id)->delete();
         if($user){
             return response()->json([

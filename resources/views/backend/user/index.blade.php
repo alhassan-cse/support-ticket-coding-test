@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(1) .' '. Request::segment(2)) }}</title>
+<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(2)) }}</title>
 @endsection
 
 @section('content')
@@ -48,11 +48,11 @@ $statusClassArr = [0=>"danger", 1=>"success"];
                                 <td>
                                     <div class="text-center">
                                         @if($row->status == 1)
-                                        <a href="{{ route('user.inactive', $row->id) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-thumbs-o-down"></i></a>
+                                        <a href="{{ route('user.inactive', encrypt($row->id)) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-thumbs-o-down"></i></a>
                                         @else
-                                        <a href="{{ route('user.active', $row->id) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-thumbs-o-up"></i></a>
+                                        <a href="{{ route('user.active', encrypt($row->id)) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-thumbs-o-up"></i></a>
                                         @endif
-                                        <a href="{{ route('users.edit', $row->id) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('users.edit', encrypt($row->id)) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-edit"></i></a>
                                         <a onclick="dtrash({{ $row->id }});" class="btn btn-social-icon btn-dropbox"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>

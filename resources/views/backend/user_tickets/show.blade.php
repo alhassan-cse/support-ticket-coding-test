@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(1) .' '. Request::segment(2)) }}</title>
+<title>{{ env('APP_NAME') }} - {{ ucwords(Request::segment(2)) }}</title>
 @endsection
 
 @section('content')
