@@ -8,7 +8,6 @@
     </div> 
     <div class="row justify-content-center"> 
         <div class="col-md-12">
-            @include('message.message')
             <div class="card p-3">
                 <div class="card-body">
                     <form action="{{ route('tickets.store') }}" method="POST">

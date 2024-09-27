@@ -102,7 +102,7 @@
                                     </td>
                                     <td>
                                         <div class="text-center">
-                                            <a href="{{ route('usertickets.show', $row->id) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-reply"></i></a> 
+                                            <a href="{{ route('usertickets.show', encrypt($row->id)) }}" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-reply"></i></a> 
                                             @if($row->status == 1)
                                             <a href="javascript:void(0)" onclick="tClosed();" class="btn btn-social-icon btn-bitbucket"><i class="fa fa-close"></i></a>
                                             

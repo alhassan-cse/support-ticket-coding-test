@@ -46,13 +46,21 @@ class TicketController extends Controller
             $ticket->user_id = Auth::user()->id;
             $ticket->subject = $request->subject;
             $ticket->message = $request->message; 
-            if($ticket->save()){ 
-                return redirect()->route('tickets.index')->with('success', 'Ticket has been created successfully.');
+            if($ticket->save()){
+                $notification = array(
+                    'message' => 'Ticket has been created successfully',
+                    'alert-type' => 'success'
+                ); 
+                return redirect()->route('tickets.index')->with($notification);
             }
         } 
         //catch exception
         catch(Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong!'); 
+            $notification = array(
+                'message' => 'Something went wrong',
+                'alert-type' => 'error'
+            ); 
+            return redirect()->back()->with($notification);
         }
     }
 
@@ -94,13 +102,21 @@ class TicketController extends Controller
             $ticket_reply->user_id = Auth::user()->id;
             $ticket_reply->message = $request->message;
             // $ticket_reply->created_at = now();
-            if($ticket_reply->save()){
-                return redirect()->back()->with('success', 'Ticket has been reply successfully.'); 
+            if($ticket_reply->save()){ 
+                $notification = array(
+                    'message' => 'Ticket has been reply successfully',
+                    'alert-type' => 'success'
+                ); 
+                return redirect()->back()->with($notification);
             } 
         } 
         //catch exception
         catch(Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong!'); 
+            $notification = array(
+                'message' => 'Something went wrong',
+                'alert-type' => 'error'
+            ); 
+            return redirect()->back()->with($notification); 
         }
     }
 

@@ -12,7 +12,6 @@
             <b class="box-title">Subject: {{ $ticket->subject }} @if($ticket->status ==1) <span class="badge badge-pill badge-danger">close</span> @else <span class="badge badge-pill badge-primary">open</span> @endif</b>
         </div>
         <div class="box-body">
-            @include('message.message')
             <div class="card direct-chat direct-chat-primary" style="position: relative; left: 0px; top: 0px;"> 
                 <div class="card-body"> 
                     <div class="direct-chat-messages"> 

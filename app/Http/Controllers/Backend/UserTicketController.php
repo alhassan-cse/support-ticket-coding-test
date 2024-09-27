@@ -72,7 +72,7 @@ class UserTicketController extends Controller
      */
     public function show(string $id)
     {
-        $ticket = Ticket::with('user','reply_ticket')->where('id', $id)->first();
+        $ticket = Ticket::with('user','reply_ticket')->where('id', decrypt($id))->first();
         
         if($ticket->notification == 0){
             $ticket_id  = $ticket->id;
@@ -128,7 +128,6 @@ class UserTicketController extends Controller
             $name  = $ticket->user->name;
             $email = $ticket->user->email;
             Mail::send('email.close', ['name'=>$name, 'email'=>$email, 'ticket_id'=>$ticket_id], function($message) use($email){
-                // $sysEmail = "events.meca@gmail.com";
                 $sysEmail = "devcustomer007@gmail.com";
                 $sysCompany = env('APP_NAME');
                 $mail_subject = "Ticket Notification";

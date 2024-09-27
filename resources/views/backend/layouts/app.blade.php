@@ -14,27 +14,18 @@
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/iCheck/all.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/colorpicker/bootstrap-colorpicker.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/timepicker/bootstrap-timepicker.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/backend/libs/select2/select2.min.css') }}">
-	{{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
+	<link rel="stylesheet" href="{{ asset('assets/backend/libs/select2/select2.min.css') }}"> 
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/jvectormap/jquery-jvectormap-1.2.2.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/css/AdminLTE.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/css/AdminLTE.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/css/skins/_all-skins.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/backend/libs/datatables/dataTables.bootstrap.css') }}">
-	{{-- <link rel="stylesheet" href="{{ asset('assets/backend/libs/toastr/toastr.css') }}">  --}}
+	<link rel="stylesheet" href="{{ asset('assets/backend/libs/datatables/dataTables.bootstrap.css') }}"> 
 	<link rel="stylesheet" href="{{ asset('assets/backend/libs/toastr/toastr.min.css') }}"> 
-	
+	<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 	<link href="{{ asset('assets/backend/libs/sweetalert2/sweetalert2.css') }}">
 
-	@yield('style')
- 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	@yield('style') 
 
 </head>
 
@@ -70,7 +61,7 @@
                                     <img class="img-circle lazy" alt="{{ Auth::user()->name }}" data-src="{{ Auth::user()->avatar }}" src="{{ asset('assets/img/placeholder/avatar.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder/avatar.jpg') }};">
 									<p>
 										{{ Auth::user()->name }}
-										<small>Member since {{ Auth::user()->create_at }}</small>
+										<small>Join Date: {{ date('j M Y', strtotime(Auth::user()->created_at)) }}</small>
 									</p>
 								</li>
 								 
@@ -104,10 +95,7 @@
 			</div>
 			<strong>Copyright &copy; {{ date("Y") }} <a href="{{ route('home') }}">{{ env('APP_NAME') }}</a>.</strong> All rights reserved.
 		</footer>
- 
-
 	</div>
-
 
 	<script src="{{ asset('assets/backend/libs/jQuery/jQuery-2.1.4.min.js') }}"></script>
 	<script src="{{ asset('assets/backend/libs/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -127,18 +115,11 @@
 	<script src="{{ asset('assets/backend/libs/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
 	<script src="{{ asset('assets/backend/libs/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
 	<script src="{{ asset('assets/backend/libs/slimScroll/jquery.slimscroll.min.js') }}"></script>
-
 	<script src="{{ asset('assets/backend/libs/datatables/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/backend/libs/datatables/dataTables.bootstrap.min.js') }}"></script>
 	<script src="{{ asset('assets/backend/libs/toastr/toastr.min.js') }}"></script>
-
 	<script src="{{ asset('assets/backend/js/demo.js') }}"></script>
-	{{-- <script src="{{ asset('assets/backend/js/pages/dashboard2.js') }}"></script>  --}}
     <script src="{{ asset('assets/js/lazysizes.js') }}"></script>
- 
-	{{-- <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script> --}}
-	{{-- <script src="{{ asset('assets/backend/libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script> --}}
- 
 	<script src="{{ asset('assets/backend/libs/sweetalert2/sweetalert2.js') }}"></script>
 
 	@yield('script')
@@ -217,6 +198,49 @@
                 $(this).closest(".sub_menu li a").css({ 'color' : 'cornflowerblue' });
             }
         });
+
+
+		function tClose(id){ 
+			swal.fire({
+				title: "Are you sure?",
+				text: "You will not be able to close this titket!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: '#DD6B55',
+				confirmButtonText: 'Yes, I am sure!',
+				cancelButtonText: "No, cancel it!"
+			}).then(result => { 
+				if (result.value) {
+					$.ajax({
+						type: "GET",
+						url: main_url + "/admin/userticket/close",
+						data: {
+							id:id
+						},
+						success: function(data) {
+							if(data.val == 1){
+								swal.fire("Success", "Ticket has been close successfully", "success");
+								setTimeout(function() {
+									location.reload();
+								}, 2000);
+							}
+							else{
+								swal.fire('Somethign went wrong', 'Thanks'+ ":)", "error"); 
+							} 
+						}
+					});
+					
+				} else if (
+					result.dismiss === swal.DismissReason.cancel
+				) {
+					swal.fire('Cancelled', 'Safe'+ ":)", "error");
+				}
+			});
+		}
+
+		function tClosed(){
+			swal.fire('This ticket already closed', 'Thanks'+ ":)", "error"); 
+		} 
 
         $(function () {
 			$("#example1").DataTable();
