@@ -61,7 +61,7 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        $ticket = Ticket::with('user','reply_ticket')->where('id', $id)->first();
+        $ticket = Ticket::with('user','reply_ticket')->where('id', decrypt($id))->first();
         // dd($ticket);
         return view('ticket.show', compact('ticket'));
     }

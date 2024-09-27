@@ -19,6 +19,7 @@ class ConfigurationController extends Controller
             foreach ($request->types as $key  =>  $type) {
                 $this->overWriteEnvFile($type, $request[$type]);
             }
+            Artisan::call('config:clear');
             // Artisan::call("config:clear");
             $notification = array(
                 'message' => 'App has been update successfully',

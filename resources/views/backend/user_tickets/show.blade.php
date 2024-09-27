@@ -184,7 +184,7 @@ direct-chat-name {
                                 <div class="direct-chat-msg right">
                                     <div class="direct-chat-infos clearfix">
                                         <span class="direct-chat-name float-right">Admin: {{ $reply_ticket->user_reply?->name }}</span>
-                                        <span class="direct-chat-timestamp float-left">{{ date('j M Y H:i:s A', strtotime($ticket->created_at)) }} ({{ \Carbon\Carbon::parse($ticket->created_at)->diffForHumans() }})</span>
+                                        <span class="direct-chat-timestamp float-left">{{ date('j M Y H:i:s A', strtotime($reply_ticket->created_at)) }} ({{ \Carbon\Carbon::parse($reply_ticket->created_at)->diffForHumans() }})</span>
                                     </div>
                                     <img class="direct-chat-img lazy" alt="{{ Auth::user()->name }}" data-src="{{ Auth::user()->avatar }}" src="{{ asset('assets/img/placeholder/avatar.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder/avatar.jpg') }};">
                                     <div class="direct-chat-text">
@@ -197,7 +197,7 @@ direct-chat-name {
                                 <div class="direct-chat-msg">
                                     <div class="direct-chat-infos clearfix">
                                         <span class="direct-chat-name float-left">Customer: {{ $reply_ticket->user?->name }}</span>
-                                        <span class="direct-chat-timestamp float-right">{{ date('j M Y H:i:s A', strtotime($ticket->created_at)) }} ({{ \Carbon\Carbon::parse($ticket->created_at)->diffForHumans() }})</span>
+                                        <span class="direct-chat-timestamp float-right">{{ date('j M Y H:i:s A', strtotime($reply_ticket->created_at)) }} ({{ \Carbon\Carbon::parse($reply_ticket->created_at)->diffForHumans() }})</span>
                                     </div>
                                     <img class="direct-chat-img lazy" alt="{{ Auth::user()->name }}" data-src="{{ Auth::user()->avatar }}" src="{{ asset('assets/img/placeholder/avatar.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/placeholder/avatar.jpg') }};">
                                     <div class="direct-chat-text">
@@ -216,7 +216,7 @@ direct-chat-name {
                             <form action="{{ route('usertickets.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <textarea type="text" name="message" class="form-control" placeholder="Reply" required"></textarea>
+                                    <textarea type="text" name="message" rows="4" cols="50" class="form-control" placeholder="Reply" required"></textarea>
                                 </div>
                                 <input type="" name="ticket_id" value="{{ $ticket->id }}">
                                 <input type="" name="user_id" value="{{ $ticket->user_id}}">
